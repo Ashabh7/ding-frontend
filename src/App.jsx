@@ -1,4 +1,4 @@
-import { Link, BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -8,6 +8,7 @@ import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
 import Navbar from "./components/Navbar";
 import CartProvider from "./context/CartContext";
+import RestaurantDashboard from "./pages/RestaurantDashboard";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/restaurant/:id" element={<Restaurant />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/restaurant-dashboard" element={<RestaurantDashboard/>}/>
       </Routes>
       
     </CartProvider>
