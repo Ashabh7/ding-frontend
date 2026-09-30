@@ -9,6 +9,7 @@ import Orders from "./pages/Orders";
 import Navbar from "./components/Navbar";
 import CartProvider from "./context/CartContext";
 import RestaurantDashboard from "./pages/RestaurantDashboard";
+import AdminDashboard from "./pages/Admindashboard";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/restaurant-dashboard" element={<RestaurantDashboard/>}/>
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
       </Routes>
       
     </CartProvider>
