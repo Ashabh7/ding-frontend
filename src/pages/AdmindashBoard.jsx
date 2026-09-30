@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 
 function AdminDashboard() {
+  console.log("ADMIN DASHBOARD LOADED");
+
   const [users, setUsers] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
   const [restaurantName, setRestaurantName] = useState("");
@@ -233,10 +235,48 @@ function AdminDashboard() {
   }
 
   function startEditingUser(user) {
+    console.log("Edit User clicked");
+
     setEditingUser(user);
     setEditUserName(user.name);
     setEditUserEmail(user.email);
     setEditUserRole(user.role);
+  }
+
+  async function updateUser(e) {
+    e.preventDefault();
+
+    console.log("updateUser fired");
+
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(
+      `http://localhost:5000/users/${editingUser._id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name: editUserName,
+          email: editUserEmail,
+          role: editUserRole,
+        }),
+      },
+    );
+
+    const data = await response.json();
+
+    if (response.ok) {
+      setUsers(
+        users.map((user) => (user._id === editingUser._id ? data : user)),
+      );
+
+      setEditingUser(null);
+    } else {
+      alert(data.message);
+    }
   }
 
   return (
@@ -251,6 +291,7 @@ function AdminDashboard() {
           <p>Email: {user.email}</p>
           <p>Role: {user.role}</p>
           <button onClick={() => deleteUser(user._id)}>Delete User</button>
+          <button onClick={() => startEditingUser(user)}>Edit User</button>
         </div>
       ))}
 
@@ -372,6 +413,39 @@ function AdminDashboard() {
 
         <button type="submit">Create Account</button>
       </form>
+
+      {editingUser && (
+        <form onSubmit={updateUser}>
+          <h2>Edit User</h2>
+
+          <input
+            type="text"
+            value={editUserName}
+            onChange={(e) => setEditUserName(e.target.value)}
+          />
+
+          <input
+            type="email"
+            value={editUserEmail}
+            onChange={(e) => setEditUserEmail(e.target.value)}
+          />
+
+          <select
+            value={editUserRole}
+            onChange={(e) => setEditUserRole(e.target.value)}
+          >
+            <option value="customer">Customer</option>
+            <option value="restaurant">Restaurant</option>
+            <option value="admin">Admin</option>
+          </select>
+
+          <button type="submit">Save Changes</button>
+
+          <button type="button" onClick={() => setEditingUser(null)}>
+            Cancel
+          </button>
+        </form>
+      )}
     </div>
   );
 }
