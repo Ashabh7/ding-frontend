@@ -2,19 +2,26 @@ import { useEffect, useState } from "react";
 import "../css/AdminDashboard.css";
 
 function AdminDashboard() {
-  console.log("ADMIN DASHBOARD LOADED");
-
   const [users, setUsers] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
+
   const [restaurantName, setRestaurantName] = useState("");
   const [restaurantEmail, setRestaurantEmail] = useState("");
   const [restaurantPassword, setRestaurantPassword] = useState("");
+
+  const [newRestaurantName, setNewRestaurantName] = useState("");
+  const [newStreet, setNewStreet] = useState("");
+  const [newCity, setNewCity] = useState("");
+  const [newPincode, setNewPincode] = useState("");
+
   const [editingRestaurant, setEditingRestaurant] = useState(null);
   const [editRestaurantName, setEditRestaurantName] = useState("");
   const [editStreet, setEditStreet] = useState("");
   const [editCity, setEditCity] = useState("");
   const [editPincode, setEditPincode] = useState("");
+
   const [orders, setOrders] = useState([]);
+
   const [editingUser, setEditingUser] = useState(null);
   const [editUserName, setEditUserName] = useState("");
   const [editUserEmail, setEditUserEmail] = useState("");
@@ -87,6 +94,10 @@ function AdminDashboard() {
         name: restaurantName,
         email: restaurantEmail,
         password: restaurantPassword,
+        restaurantName: newRestaurantName,
+        street: newStreet,
+        city: newCity,
+        pincode: newPincode,
       }),
     });
 
@@ -95,11 +106,17 @@ function AdminDashboard() {
     if (response.ok) {
       alert("Restaurant account created");
 
-      setUsers([...users, data]);
+      setUsers([...users, data.user]);
+      setRestaurants([...restaurants, data.restaurant]);
 
       setRestaurantName("");
       setRestaurantEmail("");
       setRestaurantPassword("");
+
+      setNewRestaurantName("");
+      setNewStreet("");
+      setNewCity("");
+      setNewPincode("");
     } else {
       alert(data.message);
     }
@@ -123,6 +140,7 @@ function AdminDashboard() {
       alert(data.message);
     }
   }
+
   function startEditingRestaurant(restaurant) {
     setEditingRestaurant(restaurant);
     setEditRestaurantName(restaurant.name);
@@ -236,8 +254,6 @@ function AdminDashboard() {
   }
 
   function startEditingUser(user) {
-    console.log("Edit User clicked");
-
     setEditingUser(user);
     setEditUserName(user.name);
     setEditUserEmail(user.email);
@@ -246,8 +262,6 @@ function AdminDashboard() {
 
   async function updateUser(e) {
     e.preventDefault();
-
-    console.log("updateUser fired");
 
     const token = localStorage.getItem("token");
 
@@ -460,7 +474,7 @@ function AdminDashboard() {
         <section className="admin-section">
           <div className="section-heading">
             <p className="section-label">RESTAURANT ACCOUNTS</p>
-            <h2>Create Restaurant Account</h2>
+            <h2>Create Restaurant</h2>
           </div>
 
           <form className="admin-form" onSubmit={createRestaurantAccount}>
@@ -494,7 +508,47 @@ function AdminDashboard() {
               />
             </div>
 
-            <button type="submit">Create Account</button>
+            <div className="form-group">
+              <label>Restaurant Name</label>
+              <input
+                type="text"
+                placeholder="Restaurant name"
+                value={newRestaurantName}
+                onChange={(e) => setNewRestaurantName(e.target.value)}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Street</label>
+              <input
+                type="text"
+                placeholder="Street"
+                value={newStreet}
+                onChange={(e) => setNewStreet(e.target.value)}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>City</label>
+              <input
+                type="text"
+                placeholder="City"
+                value={newCity}
+                onChange={(e) => setNewCity(e.target.value)}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Pincode</label>
+              <input
+                type="text"
+                placeholder="Pincode"
+                value={newPincode}
+                onChange={(e) => setNewPincode(e.target.value)}
+              />
+            </div>
+
+            <button type="submit">Create Restaurant</button>
           </form>
         </section>
 

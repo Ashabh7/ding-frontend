@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../css/Navbar.css";
+import { AuthContext } from "../context/AuthContext";
 
 function Navbar() {
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const { token, logout } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -14,9 +15,8 @@ function Navbar() {
     role = payload.role;
   }
 
-  function logout() {
-    localStorage.removeItem("token");
-    setToken(null);
+  function handleLogout() {
+    logout();
     navigate("/");
   }
 
@@ -42,18 +42,14 @@ function Navbar() {
             )}
 
             {role === "restaurant" && (
-              <Link to="/restaurant-dashboard">
-                Restaurant Dashboard
-              </Link>
+              <Link to="/restaurant-dashboard">Restaurant Dashboard</Link>
             )}
 
             {role === "admin" && (
-              <Link to="/admin-dashboard">
-                Admin Dashboard
-              </Link>
+              <Link to="/admin-dashboard">Admin Dashboard</Link>
             )}
 
-            <button onClick={logout}>Logout</button>
+            <button onClick={handleLogout}>Logout</button>
           </>
         )}
       </div>

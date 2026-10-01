@@ -97,14 +97,22 @@ function Orders() {
                         key={status}
                         className={`status-step ${
                           index <= currentStatusIndex ? "completed" : ""
-                        } ${index === currentStatusIndex ? "current" : ""}`}
+                        } ${
+                          index === currentStatusIndex &&
+                          order.status !== "delivered"
+                            ? "current"
+                            : ""
+                        }`}
                       >
                         <div className="status-dot">
-                          {index < currentStatusIndex
+                          {order.status === "delivered" &&
+                          index === currentStatusIndex
                             ? "✓"
-                            : index === currentStatusIndex
-                              ? "●"
-                              : ""}
+                            : index < currentStatusIndex
+                              ? "✓"
+                              : index === currentStatusIndex
+                                ? "●"
+                                : ""}
                         </div>
 
                         <span>{status}</span>
