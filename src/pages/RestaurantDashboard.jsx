@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "../css/RestaurantDashboard.css";
 
 function RestaurantDashboard() {
   const [orders, setOrders] = useState([]);
@@ -223,126 +224,229 @@ function RestaurantDashboard() {
   }
 
   return (
-    <div>
-      <h1>Restaurant Dashboard</h1>
+    <main className="restaurant-dashboard">
+      <div className="dashboard-container">
+        <section className="dashboard-header">
+          <p className="dashboard-label">RESTAURANT PANEL</p>
+          <h1>Restaurant Dashboard</h1>
+          <p>Manage your orders, menu and restaurant profile.</p>
+        </section>
 
-      <h2>Incoming Orders</h2>
-
-      {orders.map((order) => (
-        <div key={order._id}>
-          <h3>Order ID: {order._id}</h3>
-          <p>Total: ₹{order.totalAmount}</p>
-          <p>Status: {order.status}</p>
-
-          <select
-            value={order.status}
-            onChange={(e) => updateStatus(order._id, e.target.value)}
-          >
-            <option value="pending">Pending</option>
-            <option value="confirmed">Confirmed</option>
-            <option value="preparing">Preparing</option>
-            <option value="out-for-delivery">Out for Delivery</option>
-            <option value="delivered">Delivered</option>
-            <option value="cancelled">Cancelled</option>
-          </select>
-        </div>
-      ))}
-
-      <h2>Restaurant Profile</h2>
-
-      <form onSubmit={updateRestaurant}>
-        <input
-          type="text"
-          placeholder="Restaurant Name"
-          value={restaurantName}
-          onChange={(e) => setRestaurantName(e.target.value)}
-        />
-
-        <input
-          type="text"
-          placeholder="Street"
-          value={street}
-          onChange={(e) => setStreet(e.target.value)}
-        />
-
-        <input
-          type="text"
-          placeholder="City"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-        />
-
-        <input
-          type="text"
-          placeholder="Pincode"
-          value={pincode}
-          onChange={(e) => setPincode(e.target.value)}
-        />
-
-        <button type="submit" disabled={!restaurant}>
-          Save Restaurant
-        </button>
-      </form>
-
-      <h2>My Menu</h2>
-
-      {foods
-        .filter((food) => food.restaurant === restaurant?._id)
-        .map((food) => (
-          <div key={food._id}>
-            <h3>{food.name}</h3>
-            <p>₹{food.price}</p>
-            <button onClick={() => startEditingFood(food)}>Edit</button>
-            <button onClick={() => deleteFood(food._id)}>Delete</button>{" "}
+        <section className="dashboard-section">
+          <div className="section-heading">
+            <div>
+              <p className="section-label">ORDERS</p>
+              <h2>Incoming Orders</h2>
+            </div>
           </div>
-        ))}
 
-      {editingFood && (
-        <form onSubmit={updateFood}>
-          <h2>Edit Food</h2>
+          <div className="dashboard-orders">
+            {orders.length === 0 ? (
+              <div className="dashboard-empty">
+                <h3>No orders yet</h3>
+                <p>New customer orders will appear here.</p>
+              </div>
+            ) : (
+              orders.map((order) => (
+                <div className="dashboard-order-card" key={order._id}>
+                  <div className="order-top">
+                    <div>
+                      <p className="order-label">ORDER ID</p>
+                      <h3>#{order._id}</h3>
+                    </div>
 
-          <input
-            type="text"
-            value={editName}
-            onChange={(e) => setEditName(e.target.value)}
-          />
+                    <span className="dashboard-status">{order.status}</span>
+                  </div>
 
-          <input
-            type="number"
-            value={editPrice}
-            onChange={(e) => setEditPrice(e.target.value)}
-          />
+                  <div className="dashboard-order-info">
+                    <div>
+                      <span>Total</span>
+                      <strong>₹{order.totalAmount}</strong>
+                    </div>
 
-          <button type="submit">Save Changes</button>
+                    <div>
+                      <span>Status</span>
 
-          <button type="button" onClick={() => setEditingFood(null)}>
-            Cancel
-          </button>
-        </form>
-      )}
+                      <select
+                        value={order.status}
+                        onChange={(e) =>
+                          updateStatus(order._id, e.target.value)
+                        }
+                      >
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="preparing">Preparing</option>
+                        <option value="out-for-delivery">
+                          Out for Delivery
+                        </option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </section>
 
-      <h2>Add New Food</h2>
+        <section className="dashboard-section">
+          <div className="section-heading">
+            <div>
+              <p className="section-label">RESTAURANT</p>
+              <h2>Restaurant Profile</h2>
+            </div>
+          </div>
 
-      <form onSubmit={addFood}>
-        <input
-          type="text"
-          placeholder="Food name"
-          value={foodName}
-          onChange={(e) => setFoodName(e.target.value)}
-        />
+          <form className="dashboard-form" onSubmit={updateRestaurant}>
+            <div className="form-group">
+              <label>Restaurant Name</label>
+              <input
+                type="text"
+                value={restaurantName}
+                onChange={(e) => setRestaurantName(e.target.value)}
+              />
+            </div>
 
-        <input
-          type="number"
-          placeholder="Price"
-          value={foodPrice}
-          onChange={(e) => setFoodPrice(e.target.value)}
-        />
+            <div className="form-group">
+              <label>Street</label>
+              <input
+                type="text"
+                value={street}
+                onChange={(e) => setStreet(e.target.value)}
+              />
+            </div>
 
-        <button type="submit" disabled={!restaurant}>
-          Add Food
-        </button>
-      </form>
-    </div>
+            <div className="form-group">
+              <label>City</label>
+              <input
+                type="text"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Pincode</label>
+              <input
+                type="text"
+                value={pincode}
+                onChange={(e) => setPincode(e.target.value)}
+              />
+            </div>
+
+            <button type="submit" disabled={!restaurant}>
+              Save Restaurant
+            </button>
+          </form>
+        </section>
+
+        <section className="dashboard-section">
+          <div className="section-heading">
+            <div>
+              <p className="section-label">MENU</p>
+              <h2>My Menu</h2>
+            </div>
+          </div>
+
+          <div className="menu-dashboard-grid">
+            {foods
+              .filter((food) => food.restaurant === restaurant?._id)
+              .map((food) => (
+                <div className="menu-dashboard-card" key={food._id}>
+                  <div>
+                    <h3>{food.name}</h3>
+                    <p>₹{food.price}</p>
+                  </div>
+
+                  <div className="menu-actions">
+                    <button onClick={() => startEditingFood(food)}>Edit</button>
+
+                    <button
+                      className="delete-button"
+                      onClick={() => deleteFood(food._id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
+          </div>
+
+          {editingFood && (
+            <form className="edit-food-form" onSubmit={updateFood}>
+              <p className="section-label">EDIT ITEM</p>
+              <h3>Edit Food</h3>
+
+              <div className="form-group">
+                <label>Food Name</label>
+                <input
+                  type="text"
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Price</label>
+                <input
+                  type="number"
+                  value={editPrice}
+                  onChange={(e) => setEditPrice(e.target.value)}
+                />
+              </div>
+
+              <div className="edit-actions">
+                <button type="submit">Save Changes</button>
+
+                <button
+                  type="button"
+                  className="cancel-button"
+                  onClick={() => setEditingFood(null)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          )}
+        </section>
+
+        <section className="dashboard-section">
+          <div className="section-heading">
+            <div>
+              <p className="section-label">MENU MANAGEMENT</p>
+              <h2>Add New Food</h2>
+            </div>
+          </div>
+
+          <form className="dashboard-form" onSubmit={addFood}>
+            <div className="form-group">
+              <label>Food Name</label>
+              <input
+                type="text"
+                placeholder="Chicken Alfaham"
+                value={foodName}
+                onChange={(e) => setFoodName(e.target.value)}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Price</label>
+              <input
+                type="number"
+                placeholder="220"
+                value={foodPrice}
+                onChange={(e) => setFoodPrice(e.target.value)}
+              />
+            </div>
+
+            <button type="submit" disabled={!restaurant}>
+              Add Food
+            </button>
+          </form>
+        </section>
+      </div>
+    </main>
   );
 }
 

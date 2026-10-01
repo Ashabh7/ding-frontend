@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./css/global.css";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -9,27 +10,42 @@ import Orders from "./pages/Orders";
 import Navbar from "./components/Navbar";
 import CartProvider from "./context/CartContext";
 import RestaurantDashboard from "./pages/RestaurantDashboard";
-import AdminDashboard from "./pages/Admindashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
   return (
     <BrowserRouter>
-    <CartProvider>
+      <CartProvider>
+        <Navbar />
 
-      <Navbar/>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/restaurant/:id" element={<Restaurant />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/orders" element={<Orders />} />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/restaurant/:id" element={<Restaurant />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/restaurant-dashboard" element={<RestaurantDashboard/>}/>
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-      </Routes>
-      
-    </CartProvider>
+          <Route
+            path="/restaurant-dashboard"
+            element={
+              <ProtectedRoute allowedRoles={["restaurant"]}>
+                <RestaurantDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin-dashboard"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </CartProvider>
     </BrowserRouter>
   );
 }

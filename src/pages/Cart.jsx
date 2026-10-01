@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { CartContext } from "../context/CartContext";
+import "../css/Cart.css";
 
 function Cart() {
   const { cart, setCart } = useContext(CartContext);
@@ -74,44 +75,74 @@ function Cart() {
   }
 
   return (
-    <div>
-      <h1>Cart</h1>
+    <main className="cart-page">
+      <div className="cart-container">
+        <div className="cart-header">
+          <p className="cart-label">YOUR ORDER</p>
+          <h1>Your Cart</h1>
+        </div>
 
-      {cart.length === 0 ? (
-        <p>Your cart is empty</p>
-      ) : (
-        <>
-          {cart.map((item) => (
-            <div key={item.food._id}>
-              <h2>{item.food.name}</h2>
-              <p>₹{item.food.price}</p>
+        {cart.length === 0 ? (
+          <div className="empty-cart">
+            <h2>Your cart is empty</h2>
+            <p>Add something delicious and come back here.</p>
+          </div>
+        ) : (
+          <div className="cart-layout">
+            <section className="cart-items">
+              {cart.map((item) => (
+                <div className="cart-item" key={item.food._id}>
+                  <div>
+                    <h2>{item.food.name}</h2>
+                    <p>₹{item.food.price}</p>
+                  </div>
 
-              <button onClick={() => increaseQuantity(item.food._id)}>+</button>
+                  <div className="cart-item-actions">
+                    <div className="quantity-controls">
+                      <button onClick={() => decreaseQuantity(item.food._id)}>
+                        −
+                      </button>
 
-              <p>{item.quantity}</p>
+                      <span>{item.quantity}</span>
 
-              <button onClick={() => decreaseQuantity(item.food._id)}>-</button>
+                      <button onClick={() => increaseQuantity(item.food._id)}>
+                        +
+                      </button>
+                    </div>
 
-              <br />
+                    <button
+                      className="remove-button"
+                      onClick={() => removeItem(item.food._id)}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </section>
 
-              <button onClick={() => removeItem(item.food._id)}>Remove</button>
-            </div>
-          ))}
+            <aside className="checkout-card">
+              <h2>Order Summary</h2>
 
-          <h2>Total: ₹{total}</h2>
+              <div className="total-row">
+                <span>Total</span>
+                <strong>₹{total}</strong>
+              </div>
 
-          <textarea
-            placeholder="Delivery address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
+              <textarea
+                placeholder="Delivery address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
 
-          <br />
-
-          <button onClick={placeOrder}>Place Order</button>
-        </>
-      )}
-    </div>
+              <button className="place-order-button" onClick={placeOrder}>
+                Place Order
+              </button>
+            </aside>
+          </div>
+        )}
+      </div>
+    </main>
   );
 }
 

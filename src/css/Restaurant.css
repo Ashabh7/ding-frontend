@@ -1,0 +1,122 @@
+.restaurant-page {
+  min-height: calc(100vh - 72px);
+  padding-bottom: 80px;
+}
+
+.restaurant-header {
+  padding: 70px 6% 50px;
+  text-align: center;
+  background-color: #7a1f2b;
+}
+
+.restaurant-label {
+  margin: 0 0 10px;
+  color: #f0e8de;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.restaurant-header h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(38px, 5vw, 58px);
+  letter-spacing: -1.5px;
+}
+
+.restaurant-location {
+  margin: 12px 0 30px;
+  color: #eaded9;
+  font-size: 16px;
+}
+
+.food-search {
+  width: min(520px, 90%);
+  padding: 15px 18px;
+  border: 1px solid #ded4ca;
+  border-radius: 12px;
+  outline: none;
+  background-color: #ffffff;
+  color: #292624;
+  font-size: 16px;
+}
+
+.food-search:focus {
+  border-color: #f0e8de;
+  box-shadow: 0 0 0 3px rgba(240, 232, 222, 0.2);
+}
+
+.menu-section {
+  padding: 50px 6% 80px;
+  background-color: #f0e8de;
+}
+
+.menu-section h2 {
+  margin: 0 0 25px;
+  color: #24211f;
+  font-size: 28px;
+}
+
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+}
+
+.food-card {
+  min-height: 180px;
+  display: flex;
+  align-items: flex-end;
+  background-color: #7a1f2b;
+  border: 1px solid #5c1720;
+  border-radius: 18px;
+  overflow: hidden;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.food-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(92, 23, 32, 0.2);
+}
+
+.food-card-content {
+  width: 100%;
+  padding: 24px;
+}
+
+.food-card h3 {
+  margin: 0 0 25px;
+  color: #ffffff;
+  font-size: 21px;
+}
+
+.food-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.food-bottom p {
+  margin: 0;
+  color: #f0e8de;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.food-bottom button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 9px;
+  background-color: #f0e8de;
+  color: #7a1f2b;
+  font-size: 14px;
+  font-weight: 700;
+  transition: background-color 0.2s ease;
+}
+
+.food-bottom button:hover {
+  background-color: #ffffff;
+}

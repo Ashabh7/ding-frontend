@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "../css/AdminDashboard.css";
 
 function AdminDashboard() {
   console.log("ADMIN DASHBOARD LOADED");
@@ -280,173 +281,299 @@ function AdminDashboard() {
   }
 
   return (
-    <div>
-      <h1>Admin Dashboard</h1>
+    <main className="admin-dashboard">
+      <div className="admin-container">
+        <section className="admin-header">
+          <p className="admin-label">ADMIN PANEL</p>
+          <h1>Admin Dashboard</h1>
+          <p>Manage users, restaurants and orders across Ding!</p>
+        </section>
 
-      <h2>Users</h2>
+        <section className="admin-section">
+          <div className="section-heading">
+            <p className="section-label">USERS</p>
+            <h2>Manage Users</h2>
+          </div>
 
-      {users.map((user) => (
-        <div key={user._id}>
-          <p>Name: {user.name}</p>
-          <p>Email: {user.email}</p>
-          <p>Role: {user.role}</p>
-          <button onClick={() => deleteUser(user._id)}>Delete User</button>
-          <button onClick={() => startEditingUser(user)}>Edit User</button>
-        </div>
-      ))}
+          <div className="admin-users">
+            {users.map((user) => (
+              <div className="admin-user-card" key={user._id}>
+                <div>
+                  <h3>{user.name}</h3>
+                  <p>{user.email}</p>
+                  <span>{user.role}</span>
+                </div>
 
-      <h2>Restaurants</h2>
+                <div className="admin-actions">
+                  <button onClick={() => startEditingUser(user)}>Edit</button>
 
-      {restaurants.map((restaurant) => (
-        <div key={restaurant._id}>
-          <h3>{restaurant.name}</h3>
-          <p>{restaurant.location.street}</p>
-          <p>{restaurant.location.city}</p>
-          <p>{restaurant.location.pincode}</p>
+                  <button
+                    className="delete-button"
+                    onClick={() => deleteUser(user._id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
 
-          <button onClick={() => deleteRestaurant(restaurant._id)}>
-            Delete
-          </button>
-          <button onClick={() => startEditingRestaurant(restaurant)}>
-            Edit
-          </button>
-        </div>
-      ))}
+          {editingUser && (
+            <form className="admin-form edit-form" onSubmit={updateUser}>
+              <p className="section-label">EDIT USER</p>
+              <h3>Edit User</h3>
 
-      <h2>All Orders</h2>
+              <div className="form-group">
+                <label>Name</label>
+                <input
+                  type="text"
+                  value={editUserName}
+                  onChange={(e) => setEditUserName(e.target.value)}
+                />
+              </div>
 
-      {orders.map((order) => (
-        <div key={order._id}>
-          <h3>Order ID: {order._id}</h3>
+              <div className="form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  value={editUserEmail}
+                  onChange={(e) => setEditUserEmail(e.target.value)}
+                />
+              </div>
 
-          <p>Restaurant: {order.restaurant.name}</p>
+              <div className="form-group">
+                <label>Role</label>
+                <select
+                  value={editUserRole}
+                  onChange={(e) => setEditUserRole(e.target.value)}
+                >
+                  <option value="customer">Customer</option>
+                  <option value="restaurant">Restaurant</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
 
-          <p>Total: ₹{order.totalAmount}</p>
+              <div className="form-actions">
+                <button type="submit">Save Changes</button>
 
-          <p>Delivery Address: {order.deliveryAddress}</p>
+                <button
+                  type="button"
+                  className="cancel-button"
+                  onClick={() => setEditingUser(null)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          )}
+        </section>
 
-          <p>Status: {order.status}</p>
+        <section className="admin-section">
+          <div className="section-heading">
+            <p className="section-label">RESTAURANTS</p>
+            <h2>Manage Restaurants</h2>
+          </div>
 
-          <select
-            value={order.status}
-            onChange={(e) => updateOrderStatus(order._id, e.target.value)}
-          >
-            <option value="pending">Pending</option>
-            <option value="confirmed">Confirmed</option>
-            <option value="preparing">Preparing</option>
-            <option value="out-for-delivery">Out for Delivery</option>
-            <option value="delivered">Delivered</option>
-            <option value="cancelled">Cancelled</option>
-          </select>
+          <div className="admin-restaurants">
+            {restaurants.map((restaurant) => (
+              <div className="admin-restaurant-card" key={restaurant._id}>
+                <div>
+                  <h3>{restaurant.name}</h3>
+                  <p>{restaurant.location.street}</p>
+                  <p>
+                    {restaurant.location.city} — {restaurant.location.pincode}
+                  </p>
+                </div>
 
-          <button onClick={() => deleteOrder(order._id)}>Delete Order</button>
+                <div className="admin-actions">
+                  <button onClick={() => startEditingRestaurant(restaurant)}>
+                    Edit
+                  </button>
 
-          {order.items.map((item) => (
-            <div key={item.food._id}>
-              <p>{item.food.name}</p>
-              <p>Quantity: {item.quantity}</p>
-              <p>Price: ₹{item.price}</p>
+                  <button
+                    className="delete-button"
+                    onClick={() => deleteRestaurant(restaurant._id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {editingRestaurant && (
+            <form className="admin-form edit-form" onSubmit={updateRestaurant}>
+              <p className="section-label">EDIT RESTAURANT</p>
+              <h3>Edit Restaurant</h3>
+
+              <div className="form-group">
+                <label>Restaurant Name</label>
+                <input
+                  type="text"
+                  value={editRestaurantName}
+                  onChange={(e) => setEditRestaurantName(e.target.value)}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Street</label>
+                <input
+                  type="text"
+                  value={editStreet}
+                  onChange={(e) => setEditStreet(e.target.value)}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>City</label>
+                <input
+                  type="text"
+                  value={editCity}
+                  onChange={(e) => setEditCity(e.target.value)}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Pincode</label>
+                <input
+                  type="text"
+                  value={editPincode}
+                  onChange={(e) => setEditPincode(e.target.value)}
+                />
+              </div>
+
+              <div className="form-actions">
+                <button type="submit">Save Changes</button>
+
+                <button
+                  type="button"
+                  className="cancel-button"
+                  onClick={() => setEditingRestaurant(null)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          )}
+        </section>
+
+        <section className="admin-section">
+          <div className="section-heading">
+            <p className="section-label">RESTAURANT ACCOUNTS</p>
+            <h2>Create Restaurant Account</h2>
+          </div>
+
+          <form className="admin-form" onSubmit={createRestaurantAccount}>
+            <div className="form-group">
+              <label>Owner Name</label>
+              <input
+                type="text"
+                placeholder="Restaurant owner name"
+                value={restaurantName}
+                onChange={(e) => setRestaurantName(e.target.value)}
+              />
             </div>
-          ))}
-        </div>
-      ))}
 
-      {editingRestaurant && (
-        <form onSubmit={updateRestaurant}>
-          <h2>Edit Restaurant</h2>
+            <div className="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                placeholder="restaurant@example.com"
+                value={restaurantEmail}
+                onChange={(e) => setRestaurantEmail(e.target.value)}
+              />
+            </div>
 
-          <input
-            type="text"
-            value={editRestaurantName}
-            onChange={(e) => setEditRestaurantName(e.target.value)}
-          />
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                placeholder="Password"
+                value={restaurantPassword}
+                onChange={(e) => setRestaurantPassword(e.target.value)}
+              />
+            </div>
 
-          <input
-            type="text"
-            value={editStreet}
-            onChange={(e) => setEditStreet(e.target.value)}
-          />
+            <button type="submit">Create Account</button>
+          </form>
+        </section>
 
-          <input
-            type="text"
-            value={editCity}
-            onChange={(e) => setEditCity(e.target.value)}
-          />
+        <section className="admin-section">
+          <div className="section-heading">
+            <p className="section-label">ORDERS</p>
+            <h2>Manage Orders</h2>
+          </div>
 
-          <input
-            type="text"
-            value={editPincode}
-            onChange={(e) => setEditPincode(e.target.value)}
-          />
+          <div className="admin-orders">
+            {orders.map((order) => (
+              <div className="admin-order-card" key={order._id}>
+                <div className="order-top">
+                  <div>
+                    <p className="order-label">ORDER ID</p>
+                    <h3>#{order._id}</h3>
+                  </div>
 
-          <button type="submit">Save Changes</button>
+                  <span className="admin-status">{order.status}</span>
+                </div>
 
-          <button type="button" onClick={() => setEditingRestaurant(null)}>
-            Cancel
-          </button>
-        </form>
-      )}
+                <div className="order-info">
+                  <div>
+                    <span>Restaurant</span>
+                    <strong>{order.restaurant.name}</strong>
+                  </div>
 
-      <h2>Create Restaurant Account</h2>
+                  <div>
+                    <span>Total</span>
+                    <strong>₹{order.totalAmount}</strong>
+                  </div>
+                </div>
 
-      <form onSubmit={createRestaurantAccount}>
-        <input
-          type="text"
-          placeholder="Restaurant owner name"
-          value={restaurantName}
-          onChange={(e) => setRestaurantName(e.target.value)}
-        />
+                <div className="order-address">
+                  <span>Delivery Address</span>
+                  <p>{order.deliveryAddress}</p>
+                </div>
 
-        <input
-          type="email"
-          placeholder="Restaurant email"
-          value={restaurantEmail}
-          onChange={(e) => setRestaurantEmail(e.target.value)}
-        />
+                <div className="order-items">
+                  {order.items.map((item) => (
+                    <div className="order-item" key={item.food._id}>
+                      <div>
+                        <strong>{item.food.name}</strong>
+                        <span>Quantity: {item.quantity}</span>
+                      </div>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={restaurantPassword}
-          onChange={(e) => setRestaurantPassword(e.target.value)}
-        />
+                      <strong>₹{item.price}</strong>
+                    </div>
+                  ))}
+                </div>
 
-        <button type="submit">Create Account</button>
-      </form>
+                <div className="order-actions">
+                  <select
+                    value={order.status}
+                    onChange={(e) =>
+                      updateOrderStatus(order._id, e.target.value)
+                    }
+                  >
+                    <option value="pending">Pending</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="preparing">Preparing</option>
+                    <option value="out-for-delivery">Out for Delivery</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="cancelled">Cancelled</option>
+                  </select>
 
-      {editingUser && (
-        <form onSubmit={updateUser}>
-          <h2>Edit User</h2>
-
-          <input
-            type="text"
-            value={editUserName}
-            onChange={(e) => setEditUserName(e.target.value)}
-          />
-
-          <input
-            type="email"
-            value={editUserEmail}
-            onChange={(e) => setEditUserEmail(e.target.value)}
-          />
-
-          <select
-            value={editUserRole}
-            onChange={(e) => setEditUserRole(e.target.value)}
-          >
-            <option value="customer">Customer</option>
-            <option value="restaurant">Restaurant</option>
-            <option value="admin">Admin</option>
-          </select>
-
-          <button type="submit">Save Changes</button>
-
-          <button type="button" onClick={() => setEditingUser(null)}>
-            Cancel
-          </button>
-        </form>
-      )}
-    </div>
+                  <button
+                    className="delete-button"
+                    onClick={() => deleteOrder(order._id)}
+                  >
+                    Delete Order
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+    </main>
   );
 }
 

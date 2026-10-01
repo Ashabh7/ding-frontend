@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import "../css/Home.css";
 
 function Home() {
   const [restaurants, setRestaurants] = useState([]);
@@ -24,23 +25,46 @@ function Home() {
   );
 
   return (
-    <div>
-      <h1>Ding! Home</h1>
+    <main className="home-page">
+      <section className="hero">
+        <p className="hero-label">GOOD FOOD. GOOD MOOD.</p>
 
-      <input
-        type="text"
-        placeholder="Search restaurants..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+        <h1>What are you craving?</h1>
 
-      {filteredRestaurants.map((restaurant) => (
-        <Link to={`/restaurant/${restaurant._id}`} key={restaurant._id}>
-          <h2>{restaurant.name}</h2>
-          <p>{restaurant.location.city}</p>
-        </Link>
-      ))}
-    </div>
+        <p className="hero-text">
+          Discover great food from restaurants around you.
+        </p>
+
+        <input
+          className="restaurant-search"
+          type="text"
+          placeholder="Search restaurants..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </section>
+
+      <section className="restaurants-section">
+        <h2>Restaurants</h2>
+
+        <div className="restaurant-grid">
+          {filteredRestaurants.map((restaurant) => (
+            <Link
+              to={`/restaurant/${restaurant._id}`}
+              key={restaurant._id}
+              className="restaurant-card"
+            >
+              <div className="restaurant-card-content">
+                <h3>{restaurant.name}</h3>
+                <p>{restaurant.location.city}</p>
+
+                <span>View Menu →</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+    </main>
   );
 }
 

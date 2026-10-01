@@ -1,0 +1,119 @@
+.home-page {
+  min-height: calc(100vh - 72px);
+  padding-bottom: 80px;
+  background-color: #f0e8de;
+}
+
+.hero {
+  padding: 90px 6% 70px;
+  text-align: center;
+  background-color: #7a1f2b;
+}
+
+.hero-label {
+  margin: 0 0 12px;
+  color: #f0e8de;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.hero h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(42px, 6vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -2px;
+}
+
+.hero-text {
+  max-width: 520px;
+  margin: 20px auto 32px;
+  color: #eaded9;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.restaurant-search {
+  width: min(560px, 90%);
+  padding: 16px 20px;
+  border: 1px solid #ded4ca;
+  border-radius: 12px;
+  outline: none;
+  background-color: #ffffff;
+  color: #292624;
+  font-size: 16px;
+}
+
+.restaurant-search:focus {
+  border-color: #f0e8de;
+  box-shadow: 0 0 0 3px rgba(240, 232, 222, 0.2);
+}
+
+.restaurants-section {
+  padding: 55px 6% 80px;
+  background-color: #f0e8de;
+}
+
+.restaurants-section h2 {
+  margin: 0 0 25px;
+  color: #24211f;
+  font-size: 28px;
+}
+
+.restaurant-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.restaurant-card {
+  min-height: 210px;
+  display: flex;
+  align-items: flex-end;
+  text-decoration: none;
+  background-color: #7a1f2b;
+  border: 1px solid #5c1720;
+  border-radius: 18px;
+  overflow: hidden;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.restaurant-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 30px rgba(92, 23, 32, 0.2);
+}
+
+.restaurant-card-content {
+  width: 100%;
+  padding: 26px;
+}
+
+.restaurant-card h3 {
+  margin: 0 0 8px;
+  color: #ffffff;
+  font-size: 21px;
+}
+
+.restaurant-card p {
+  margin: 0 0 18px;
+  color: #eaded9;
+}
+
+.restaurant-card span {
+  color: #f0e8de;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding: 65px 6% 55px;
+  }
+
+  .restaurants-section {
+    padding: 40px 6% 60px;
+  }
+}

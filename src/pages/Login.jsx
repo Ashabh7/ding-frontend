@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../css/Auth.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate()
+
+  const navigate = useNavigate();
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -24,35 +26,53 @@ function Login() {
 
     if (response.ok) {
       localStorage.setItem("token", data.token);
+
       alert("Login successful");
+
+      navigate("/");
     } else {
       alert(data.message);
     }
-    navigate('/')
   }
 
   return (
-    <div>
-      <h1>Login</h1>
+    <main className="auth-page">
+      <div className="auth-card">
+        <div className="auth-header">
+          <p className="auth-label">WELCOME BACK</p>
 
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+          <h1>Login</h1>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          <p>Sign in to continue to Ding!</p>
+        </div>
 
-        <button type="submit">Login</button>
-      </form>
-    </div>
+        <form onSubmit={handleLogin} className="auth-form">
+          <div className="form-group">
+            <label>Email</label>
+
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Password</label>
+
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </main>
   );
 }
 

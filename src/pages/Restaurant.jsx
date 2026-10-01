@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
+import "../css/Restaurant.css";
 
 function Restaurant() {
   const [restaurant, setRestaurant] = useState(null);
@@ -12,9 +13,7 @@ function Restaurant() {
 
   useEffect(() => {
     async function getRestaurant() {
-      const response = await fetch(
-        `http://localhost:5000/restaurants/${id}`,
-      );
+      const response = await fetch(`http://localhost:5000/restaurants/${id}`);
 
       const data = await response.json();
 
@@ -29,9 +28,7 @@ function Restaurant() {
       const data = await response.json();
 
       if (response.ok) {
-        const restaurantFoods = data.filter(
-          (food) => food.restaurant === id,
-        );
+        const restaurantFoods = data.filter((food) => food.restaurant === id);
 
         setFoods(restaurantFoods);
       }
@@ -42,17 +39,12 @@ function Restaurant() {
   }, [id]);
 
   function addToCart(food) {
-    if (
-      cart.length > 0 &&
-      cart[0].food.restaurant !== food.restaurant
-    ) {
+    if (cart.length > 0 && cart[0].food.restaurant !== food.restaurant) {
       alert("You can only order from one restaurant at a time");
       return;
     }
 
-    const existingItem = cart.find(
-      (item) => item.food._id === food._id,
-    );
+    const existingItem = cart.find((item) => item.food._id === food._id);
 
     if (existingItem) {
       setCart(
@@ -79,27 +71,43 @@ function Restaurant() {
   );
 
   return (
-    <div>
-      <h1>{restaurant?.name}</h1>
+    <main className="restaurant-page">
+      <section className="restaurant-header">
+        <p className="restaurant-label">RESTAURANT</p>
 
-      <input
-        type="text"
-        placeholder="Search food..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+        <h1>{restaurant?.name}</h1>
 
-      {filteredFoods.map((food) => (
-        <div key={food._id}>
-          <h2>{food.name}</h2>
-          <p>₹{food.price}</p>
+        <p className="restaurant-location">{restaurant?.location.city}</p>
 
-          <button onClick={() => addToCart(food)}>
-            Add to Cart
-          </button>
+        <input
+          className="food-search"
+          type="text"
+          placeholder="Search food..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </section>
+
+      <section className="menu-section">
+        <h2>Menu</h2>
+
+        <div className="food-grid">
+          {filteredFoods.map((food) => (
+            <div className="food-card" key={food._id}>
+              <div className="food-card-content">
+                <h3>{food.name}</h3>
+
+                <div className="food-bottom">
+                  <p>₹{food.price}</p>
+
+                  <button onClick={() => addToCart(food)}>Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
+      </section>
+    </main>
   );
 }
 
