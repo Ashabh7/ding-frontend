@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/Home.css";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Home() {
   const [restaurants, setRestaurants] = useState([]);
@@ -8,7 +9,7 @@ function Home() {
 
   useEffect(() => {
     async function getRestaurants() {
-      const response = await fetch("http://localhost:5000/restaurants");
+      const response = await fetch(`${API_URL}/restaurants`);
 
       const data = await response.json();
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../css/AdminDashboard.css";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function AdminDashboard() {
   const [users, setUsers] = useState([]);
@@ -31,7 +32,7 @@ function AdminDashboard() {
     async function getUsers() {
       const token = localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:5000/users", {
+      const response = await fetch(`${API_URL}/users`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -47,7 +48,7 @@ function AdminDashboard() {
     }
 
     async function getRestaurants() {
-      const response = await fetch("http://localhost:5000/restaurants");
+      const response = await fetch(`${API_URL}/restaurants`);
 
       const data = await response.json();
 
@@ -59,7 +60,7 @@ function AdminDashboard() {
     async function getOrders() {
       const token = localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:5000/orders", {
+      const response = await fetch(`${API_URL}/orders`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -84,7 +85,7 @@ function AdminDashboard() {
 
     const token = localStorage.getItem("token");
 
-    const response = await fetch("http://localhost:5000/restaurant-users", {
+    const response = await fetch(`${API_URL}/restaurant-users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -125,7 +126,7 @@ function AdminDashboard() {
   async function deleteRestaurant(id) {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(`http://localhost:5000/restaurants/${id}`, {
+    const response = await fetch(`${API_URL}/restaurants/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -155,7 +156,7 @@ function AdminDashboard() {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-      `http://localhost:5000/restaurants/${editingRestaurant._id}`,
+      `${API_URL}/restaurants/${editingRestaurant._id}`,
       {
         method: "PUT",
         headers: {
@@ -191,7 +192,7 @@ function AdminDashboard() {
   async function updateOrderStatus(id, status) {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(`http://localhost:5000/orders/${id}`, {
+    const response = await fetch(`${API_URL}/orders/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -218,7 +219,7 @@ function AdminDashboard() {
   async function deleteOrder(id) {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(`http://localhost:5000/orders/${id}`, {
+    const response = await fetch(`${API_URL}/orders/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -237,7 +238,7 @@ function AdminDashboard() {
   async function deleteUser(id) {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(`http://localhost:5000/users/${id}`, {
+    const response = await fetch(`${API_URL}/users/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -266,7 +267,7 @@ function AdminDashboard() {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-      `http://localhost:5000/users/${editingUser._id}`,
+      `${API_URL}/users/${editingUser._id}`,
       {
         method: "PUT",
         headers: {

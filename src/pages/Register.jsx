@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/Auth.css";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Register() {
   const [name, setName] = useState("");
@@ -12,7 +13,7 @@ function Register() {
   async function handleRegister(e) {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:5000/users", {
+    const response = await fetch(`${API_URL}/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

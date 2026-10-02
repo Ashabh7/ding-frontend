@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { CartContext } from "../context/CartContext";
-import "../css/Cart.css";
+import "../css/Cart.css";const API_URL = import.meta.env.VITE_API_URL;
 
 function Cart() {
   const { cart, setCart } = useContext(CartContext);
@@ -47,7 +47,7 @@ function Cart() {
 
     const token = localStorage.getItem("token");
 
-    const response = await fetch("http://localhost:5000/orders", {
+    const response = await fetch(`${API_URL}/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

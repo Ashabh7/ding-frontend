@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import "../css/Restaurant.css";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Restaurant() {
   const [restaurant, setRestaurant] = useState(null);
@@ -13,7 +14,7 @@ function Restaurant() {
 
   useEffect(() => {
     async function getRestaurant() {
-      const response = await fetch(`http://localhost:5000/restaurants/${id}`);
+      const response = await fetch(`${API_URL}/restaurants/${id}`);
 
       const data = await response.json();
 
@@ -23,7 +24,7 @@ function Restaurant() {
     }
 
     async function getFoods() {
-      const response = await fetch("http://localhost:5000/foods");
+      const response = await fetch(`${API_URL}/foods`);
 
       const data = await response.json();
 

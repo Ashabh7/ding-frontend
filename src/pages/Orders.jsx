@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../css/Orders.css";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Orders() {
   const [orders, setOrders] = useState([]);
@@ -8,7 +9,7 @@ function Orders() {
     async function getOrders() {
       const token = localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:5000/orders", {
+      const response = await fetch(`${API_URL}/orders`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
