@@ -14,12 +14,14 @@ function AdminDashboard() {
   const [newStreet, setNewStreet] = useState("");
   const [newCity, setNewCity] = useState("");
   const [newPincode, setNewPincode] = useState("");
+  const [newRestaurantImage, setNewRestaurantImage] = useState("");
 
   const [editingRestaurant, setEditingRestaurant] = useState(null);
   const [editRestaurantName, setEditRestaurantName] = useState("");
   const [editStreet, setEditStreet] = useState("");
   const [editCity, setEditCity] = useState("");
   const [editPincode, setEditPincode] = useState("");
+  const [editRestaurantImage, setEditRestaurantImage] = useState("");
 
   const [orders, setOrders] = useState([]);
 
@@ -99,6 +101,7 @@ function AdminDashboard() {
         street: newStreet,
         city: newCity,
         pincode: newPincode,
+        image: newRestaurantImage,
       }),
     });
 
@@ -118,6 +121,7 @@ function AdminDashboard() {
       setNewStreet("");
       setNewCity("");
       setNewPincode("");
+      setNewRestaurantImage("");
     } else {
       alert(data.message);
     }
@@ -148,6 +152,7 @@ function AdminDashboard() {
     setEditStreet(restaurant.location.street);
     setEditCity(restaurant.location.city);
     setEditPincode(restaurant.location.pincode);
+    setEditRestaurantImage(restaurant.image || "");
   }
 
   async function updateRestaurant(e) {
@@ -165,6 +170,7 @@ function AdminDashboard() {
         },
         body: JSON.stringify({
           name: editRestaurantName,
+          image: editRestaurantImage,
           location: {
             street: editStreet,
             city: editCity,
@@ -457,6 +463,16 @@ function AdminDashboard() {
                 />
               </div>
 
+              <div className="form-group form-group-wide">
+                <label>Restaurant Image URL</label>
+                <input
+                  type="url"
+                  placeholder="https://..."
+                  value={editRestaurantImage}
+                  onChange={(e) => setEditRestaurantImage(e.target.value)}
+                />
+              </div>
+
               <div className="form-actions">
                 <button type="submit">Save Changes</button>
 
@@ -546,6 +562,16 @@ function AdminDashboard() {
                 placeholder="Pincode"
                 value={newPincode}
                 onChange={(e) => setNewPincode(e.target.value)}
+              />
+            </div>
+
+            <div className="form-group form-group-wide">
+              <label>Restaurant Image URL</label>
+              <input
+                type="url"
+                placeholder="https://..."
+                value={newRestaurantImage}
+                onChange={(e) => setNewRestaurantImage(e.target.value)}
               />
             </div>
 

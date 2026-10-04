@@ -15,6 +15,7 @@ function RestaurantDashboard() {
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
   const [pincode, setPincode] = useState("");
+  const [restaurantImage, setRestaurantImage] = useState("");
 
   useEffect(() => {
     async function getOrders() {
@@ -66,6 +67,7 @@ function RestaurantDashboard() {
         setStreet(data.location.street);
         setCity(data.location.city);
         setPincode(data.location.pincode);
+        setRestaurantImage(data.image || "");
       } else {
         alert(data.message);
       }
@@ -205,6 +207,7 @@ function RestaurantDashboard() {
         },
         body: JSON.stringify({
           name: restaurantName,
+          image: restaurantImage,
           location: {
             street: street,
             city: city,
@@ -334,6 +337,17 @@ function RestaurantDashboard() {
                 value={pincode}
                 onChange={(e) => setPincode(e.target.value)}
               />
+            </div>
+
+            <div className="form-group form-group-wide">
+              <label>Restaurant Image URL</label>
+              <input
+                type="url"
+                placeholder="https://..."
+                value={restaurantImage}
+                onChange={(e) => setRestaurantImage(e.target.value)}
+              />
+              <small>Optional. Used on the customer-facing restaurant cards.</small>
             </div>
 
             <button type="submit" disabled={!restaurant}>
