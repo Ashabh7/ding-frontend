@@ -80,11 +80,7 @@ function Home() {
           </label>
         </div>
 
-        <div className="hero-decoration" aria-hidden="true">
-          <span>01</span>
-          <span>FRESH</span>
-          <span>LOCAL</span>
-        </div>
+        <div className="hero-decoration" aria-hidden="true"></div>
       </section>
 
       <section className="restaurants-section">
@@ -148,7 +144,9 @@ function Home() {
                     <p>{restaurant.location.city}</p>
                   </div>
 
-                  <span>View Menu <b>↗</b></span>
+                  <span>
+                    View Menu <b>↗</b>
+                  </span>
                 </div>
               </Link>
             ))}

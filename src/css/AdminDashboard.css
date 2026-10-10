@@ -1,65 +1,153 @@
 @import url("./RestaurantDashboard.css");
 
+/* ===== ADMIN DASHBOARD ===== */
+
 .admin-dashboard {
+  min-height: 100vh;
   background:
-    radial-gradient(circle at 80% 0%, rgba(122,31,43,.045), transparent 28%),
+    radial-gradient(
+      circle at 85% 0%,
+      rgba(120, 37, 50, 0.06),
+      transparent 30%
+    ),
     var(--cream);
 }
 
+/* ===== ADMIN HEADER ===== */
+
 .admin-header {
   background:
-    radial-gradient(circle at 90% 15%, rgba(255,255,255,.14), transparent 25%),
-    #24211f;
+    radial-gradient(
+      circle at 90% 15%,
+      rgba(255, 255, 255, 0.12),
+      transparent 28%
+    ),
+    linear-gradient(135deg, #282321, #551722);
+  color: var(--paper);
 }
+
+/* ===== USER & RESTAURANT CARDS ===== */
 
 .admin-user-card,
 .admin-restaurant-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--paper);
+  box-shadow: 0 6px 22px rgba(40, 35, 33, 0.04);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.admin-user-card:hover,
+.admin-restaurant-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(120, 37, 50, 0.2);
+  box-shadow: 0 12px 28px rgba(40, 35, 33, 0.08);
 }
 
 .admin-user-card h3,
 .admin-restaurant-card h3 {
-  margin: 0 0 5px;
+  margin: 0 0 7px;
+  color: var(--charcoal);
   font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
 }
 
 .admin-user-card p,
 .admin-restaurant-card p {
-  margin: 3px 0;
+  margin: 4px 0;
   color: var(--muted);
   font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
 }
 
+/* ===== USER ROLE BADGE ===== */
+
 .admin-user-card span {
-  display: inline-block;
-  margin-top: 8px;
-  padding: 4px 8px;
+  display: inline-flex;
+  align-items: center;
+  margin-top: 10px;
+  padding: 5px 11px;
+  border: 1px solid rgba(120, 37, 50, 0.12);
   border-radius: 999px;
-  background: var(--beige);
+  background: var(--light);
   color: var(--burgundy);
   font-size: 10px;
   font-weight: 800;
+  letter-spacing: 0.7px;
   text-transform: uppercase;
 }
 
+/* ===== EDIT FORM ===== */
+
 .admin-form.edit-form {
-  margin-top: 18px;
-  padding: 22px;
-  border-radius: 15px;
-  background: var(--cream);
+  margin-top: 20px;
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--paper);
+  box-shadow: 0 8px 28px rgba(40, 35, 33, 0.04);
 }
 
+/* ===== ADMIN ORDER CARDS ===== */
+
 .admin-order-card {
-  background: var(--cream);
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--paper);
+  box-shadow: 0 6px 22px rgba(40, 35, 33, 0.04);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
+
+.admin-order-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(40, 35, 33, 0.08);
+}
+
+/* ===== RESPONSIVE ===== */
 
 @media (max-width: 620px) {
   .admin-user-card,
   .admin-restaurant-card {
     align-items: flex-start;
     flex-direction: column;
+    gap: 14px;
+    padding: 18px;
+  }
+
+  .admin-form.edit-form {
+    padding: 18px;
+  }
+
+  .admin-order-card {
+    padding: 18px;
+  }
+}
+
+/* ===== REDUCED MOTION ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-user-card,
+  .admin-restaurant-card,
+  .admin-order-card {
+    transition: none;
+  }
+
+  .admin-user-card:hover,
+  .admin-restaurant-card:hover,
+  .admin-order-card:hover {
+    transform: none;
   }
 }
