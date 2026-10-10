@@ -1,21 +1,27 @@
 import { useEffect, useState } from "react";
 import "../css/RestaurantDashboard.css";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 function RestaurantDashboard() {
   const [orders, setOrders] = useState([]);
   const [foods, setFoods] = useState([]);
   const [restaurant, setRestaurant] = useState(null);
+
   const [foodName, setFoodName] = useState("");
   const [foodPrice, setFoodPrice] = useState("");
   const [editingFood, setEditingFood] = useState(null);
   const [editName, setEditName] = useState("");
   const [editPrice, setEditPrice] = useState("");
+
   const [restaurantName, setRestaurantName] = useState("");
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
   const [pincode, setPincode] = useState("");
+
   const [restaurantImage, setRestaurantImage] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
 
   useEffect(() => {
     async function getOrders() {
@@ -40,7 +46,6 @@ function RestaurantDashboard() {
 
     async function getFoods() {
       const response = await fetch(`${API_URL}/foods`);
-
       const data = await response.json();
 
       if (response.ok) {
@@ -162,20 +167,17 @@ function RestaurantDashboard() {
 
     const token = localStorage.getItem("token");
 
-    const response = await fetch(
-      `${API_URL}/foods/${editingFood._id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name: editName,
-          price: Number(editPrice),
-        }),
+    const response = await fetch(`${API_URL}/foods/${editingFood._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-    );
+      body: JSON.stringify({
+        name: editName,
+        price: Number(editPrice),
+      }),
+    });
 
     const data = await response.json();
 
@@ -196,34 +198,44 @@ function RestaurantDashboard() {
     e.preventDefault();
 
     const token = localStorage.getItem("token");
+    const formData = new FormData();
 
-    const response = await fetch(
-      `${API_URL}/restaurants/${restaurant._id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name: restaurantName,
-          image: restaurantImage,
-          location: {
-            street: street,
-            city: city,
-            pincode: pincode,
+    formData.append("name", restaurantName);
+    formData.append("street", street);
+    formData.append("city", city);
+    formData.append("pincode", pincode);
+
+    if (selectedImage) {
+      formData.append("image", selectedImage);
+    }
+
+    try {
+      const response = await fetch(
+        `${API_URL}/restaurants/${restaurant._id}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-        }),
-      },
-    );
+          body: formData,
+        },
+      );
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (response.ok) {
-      setRestaurant(data);
-      alert("Restaurant updated");
-    } else {
-      alert(data.message);
+      if (response.ok) {
+        setRestaurant(data);
+        setRestaurantImage(data.image || "");
+        setSelectedImage(null);
+        setImagePreview("");
+
+        alert("Restaurant updated successfully!");
+      } else {
+        alert(data.message || "Failed to update restaurant");
+      }
+    } catch (error) {
+      console.error("Restaurant update error:", error);
+      alert("Unable to update restaurant. Please try again.");
     }
   }
 
@@ -340,14 +352,39 @@ function RestaurantDashboard() {
             </div>
 
             <div className="form-group form-group-wide">
-              <label>Restaurant Image URL</label>
+              <label>Restaurant Image</label>
+
+              {(imagePreview || restaurantImage) && (
+                <img
+                  src={imagePreview || restaurantImage}
+                  alt="Restaurant preview"
+                  style={{
+                    width: "100%",
+                    maxWidth: "320px",
+                    height: "180px",
+                    objectFit: "cover",
+                    borderRadius: "10px",
+                    marginBottom: "12px",
+                  }}
+                />
+              )}
+
               <input
-                type="url"
-                placeholder="https://..."
-                value={restaurantImage}
-                onChange={(e) => setRestaurantImage(e.target.value)}
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+
+                  if (file) {
+                    setSelectedImage(file);
+                    setImagePreview(URL.createObjectURL(file));
+                  }
+                }}
               />
-              <small>Optional. Used on the customer-facing restaurant cards.</small>
+
+              <small>
+                Select a new image to replace your current restaurant image.
+              </small>
             </div>
 
             <button type="submit" disabled={!restaurant}>
@@ -375,7 +412,9 @@ function RestaurantDashboard() {
                   </div>
 
                   <div className="menu-actions">
-                    <button onClick={() => startEditingFood(food)}>Edit</button>
+                    <button onClick={() => startEditingFood(food)}>
+                      Edit
+                    </button>
 
                     <button
                       className="delete-button"
